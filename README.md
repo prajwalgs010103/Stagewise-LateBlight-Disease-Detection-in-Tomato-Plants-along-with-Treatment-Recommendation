@@ -1,5 +1,5 @@
 
-# 🍅 Stage-Wise LAte Blight Tomato Leaf Disease Detection Web App
+# 🍅 Stage-Wise Late Blight Tomato Leaf Disease Detection Web App
 
 This web-based application allows users to upload or capture images of tomato leaves to detect the disease stage using deep learning models (InceptionV3 and EfficientNet). It also provides treatment recommendations, stores history, generates downloadable PDF reports, and supports multi-image predictions.
 
