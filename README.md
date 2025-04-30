@@ -60,32 +60,32 @@ This web-based application allows users to upload or capture images of tomato le
 
 ### ✅ Software Requirements
 
-| Component                | Version / Notes                                         |
+| Component                | Version / Notes                                          |
 |--------------------------|----------------------------------------------------------|
-| **Operating System**     | Windows 10/11, Ubuntu 20.04+, macOS 10.15+              |
-| **Python**               | Python 3.8 or above                                     |
-| **Flask**                | 2.0+                                                    |
-| **TensorFlow**           | 2.9+ (Used for model loading and inference)             |
-| **Keras**                | Included with TensorFlow                               |
-| **Firebase Admin SDK**   | Latest version (for authentication & Firestore access) |
-| **Pillow (PIL)**         | For image loading and manipulation                     |
-| **ReportLab**            | For generating downloadable PDF reports                |
-| **Torch**                | Required for auxiliary model support (if used)         |
-| **gdown**                | For downloading models from Google Drive               |
-| **Jinja2**               | Template engine (bundled with Flask)                   |
-| **Browser**              | Chrome, Firefox, or any modern browser                 |
+| **Operating System**     | Windows 10/11, Ubuntu 20.04+, macOS 10.15+               |
+| **Python**               | Python 3.8 or above                                      |
+| **Flask**                | 2.0+                                                     |
+| **TensorFlow**           | 2.9+ (Used for model loading and inference)              |
+| **Keras**                | Included with TensorFlow                                 |
+| **Firebase Admin SDK**   | Latest version (for authentication & Firestore access)   |
+| **Pillow (PIL)**         | For image loading and manipulation                       |
+| **ReportLab**            | For generating downloadable PDF reports                  |
+| **Torch**                | Required for auxiliary model support (if used)           |
+| **gdown**                | For downloading models from Google Drive                 |
+| **Jinja2**               | Template engine (bundled with Flask)                     |
+| **Browser**              | Chrome, Firefox, or any modern browser                   |
 
 All necessary packages are listed in the `requirements.txt`.
 
 ### 💾 Hardware Requirements
 
-| Component                | Minimum                                                   |
-|--------------------------|------------------------------------------------------------|
-| **Processor**            | Dual-core CPU (Intel i3 or equivalent)                    |
-| **RAM**                  | 4 GB (8 GB recommended for faster performance)            |
-| **Storage**              | At least 1 GB free (for models, images, dependencies)     |
+| Component                | Minimum                                                       |
+|--------------------------|---------------------------------------------------------------|
+| **Processor**            | Dual-core CPU (Intel i3 or equivalent)                        |
+| **RAM**                  | 4 GB (8 GB recommended for faster performance)                |
+| **Storage**              | At least 1 GB free (for models, images, dependencies)         |
 | **GPU (Optional)**       | NVIDIA GPU with CUDA support (for model training/fine-tuning) |
-| **Camera**               | Webcam or mobile device camera for live capture          |
+| **Camera**               | Webcam or mobile device camera for live capture               |
 
 ---
 
