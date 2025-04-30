@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Tomato Leaf Disease Detector</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --accent-color: #8BC34A;
+            --dark-color: #1B5E20;
+            --light-color: #F1F8E9;
+            --text-color: #333;
+            --white: #fff;
+            --gray-light: #f5f5f5;
+            --gray-medium: #e0e0e0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--gray-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .app-name {
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            flex-grow: 1;
+            margin: 0 1rem;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background-color: transparent;
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dropbtn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--white);
+            min-width: 200px;
+            box-shadow: var(--shadow);
+            border-radius: 4px;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            flex-grow: 1;
+        }
+
+        h2 {
+            color: var(--dark-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+
+        input {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-medium);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(139, 195, 74, 0.2);
+        }
+
+        .password-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 12px;
+            cursor: pointer;
+            color: var(--text-color);
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+
+        .eye-icon:hover {
+            opacity: 1;
+            color: var(--secondary-color);
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: -0.5rem;
+        }
+
+        .forgot-password a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+            color: var(--dark-color);
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-color);
+        }
+
+        .register-link a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+            color: var(--dark-color);
+        }
+
+        .alert {
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert-success {
+            background-color: rgba(56, 142, 60, 0.1);
+            color: var(--secondary-color);
+            border: 1px solid rgba(56, 142, 60, 0.3);
+        }
+
+        .alert-error {
+            background-color: rgba(211, 47, 47, 0.1);
+            color: #d32f2f;
+            border: 1px solid rgba(211, 47, 47, 0.3);
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .app-name {
+                margin: 1rem 0;
+                order: -1;
+            }
+
+            .dropdown {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            .dropbtn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .dropdown-content {
+                width: 100%;
+            }
+
+            .container {
+                margin: 2rem 1rem;
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="dropdown">
+            <button class="dropbtn"><i class="fas fa-bars"></i> Menu</button>
+            <div class="dropdown-content">
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+                <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+            </div>
+        </div>
+        <h1 class="app-name"><i class="fas fa-leaf"></i> Tomato Leaf Disease Detector</h1>
+    </nav>
+
+    <div class="container">
+        <h2><i class="fas fa-sign-in-alt"></i> Login to Your Account</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'error' if category == 'danger' else category }}">
+                        <i class="fas fa-{{ 'exclamation-circle' if category == 'danger' else 'check-circle' }}"></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('login') }}" autocomplete="on">
+            <div class="form-group">
+                <label for="username"><i class="fas fa-user"></i> Username</label>
+                <input type="text" id="username" name="username" required placeholder="Enter your username" autocomplete="username">
+            </div>
+            
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock"></i> Password</label>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" required placeholder="Enter your password" autocomplete="current-password">
+                    <i class="eye-icon fas fa-eye" onclick="togglePassword('password', this)" title="Toggle Password Visibility"></i>
+                </div>
+                <div class="forgot-password">
+                    <a href="{{ url_for('forgot_password') }}">Forgot Password?</a>
+                </div>
+            </div>
+            
+            <button type="submit">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </form>
+        
+        <div class="register-link">
+            Don't have an account? <a href="/register">Register Here</a>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Tomato Leaf Disease Detector. All Rights Reserved @APVS
+    </footer>
+
+    <script>
+        function togglePassword(fieldId, icon) {
+            const field = document.getElementById(fieldId);
+            const isPassword = field.type === "password";
+            
+            field.type = isPassword ? "text" : "password";
+            icon.classList.toggle("fa-eye", !isPassword);
+            icon.classList.toggle("fa-eye-slash", isPassword);
+            
+            // Update aria-label for accessibility
+            icon.setAttribute('aria-label', isPassword ? 'Show password' : 'Hide password');
+        }
+
+        // Add focus styles for better accessibility
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.querySelector('label').style.color = 'var(--dark-color)';
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.querySelector('label').style.color = 'var(--secondary-color)';
+            });
+        });
+    </script>
+</body>
+</html>

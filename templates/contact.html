@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Tomato Leaf Disease Detector</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --accent-color: #8BC34A;
+            --dark-color: #1B5E20;
+            --light-color: #F1F8E9;
+            --text-color: #333;
+            --white: #fff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .app-name {
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            flex-grow: 1;
+            margin: 0 1rem;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background-color: transparent;
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dropbtn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--white);
+            min-width: 200px;
+            box-shadow: var(--shadow);
+            border-radius: 4px;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            flex-grow: 1;
+        }
+
+        h2 {
+            color: var(--dark-color);
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        form {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(139, 195, 74, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card {
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            transition: var(--transition);
+            border-top: 3px solid var(--accent-color);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: var(--transition);
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+
+        strong {
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .app-name {
+                margin: 1rem 0;
+                order: -1;
+            }
+
+            .dropdown {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            .dropbtn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .dropdown-content {
+                width: 100%;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <!-- Menu (Left Side) -->
+        <div class="dropdown">
+            <button class="dropbtn"><i class="fas fa-bars"></i> Menu</button>
+            <div class="dropdown-content">
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+                <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+                
+                {% if 'username' in session %}
+                    <!-- Tomato Disease Detection with submenu -->
+                    <div class="dropdown-submenu">
+                        <a href="#"><i class="fas fa-search"></i> Tomato Disease <i class="fas fa-chevron-right"></i></a>
+                        <div class="dropdown-submenu-content">
+                            <a href="/new_detect"><i class="fas fa-search"></i> Disease Detection</a>
+                            <a href="/disease_history"><i class="fas fa-history"></i> Detection History</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Lateblight Stage Detection with submenu -->
+                    <div class="dropdown-submenu">
+                        <a href="#"><i class="fas fa-leaf"></i> Lateblight Stage <i class="fas fa-chevron-right"></i></a>
+                        <div class="dropdown-submenu-content">
+                            <a href="/detect"><i class="fas fa-leaf"></i> Single Image</a>
+                            <a href="/history"><i class="fas fa-clock"></i>Single Image History</a>
+                            <a href="/detect_multiple"><i class="fas fa-images"></i> Multiple Images</a>
+                            <a href="/history_multiple"><i class="fas fa-history"></i> Multiple Images History</a>
+                        </div>
+                    </div>
+                    
+                    <a href="/necessary_precautions"><i class="fas fa-shield-alt"></i> Necessary Precautions</a>
+                {% endif %}
+            </div>
+        </div>
+    
+        <!-- App Name (Centered) -->
+        <h1 class="app-name"><i class="fas fa-leaf"></i> Tomato Leaf Disease Detector</h1>
+    
+        <!-- User Dropdown (Right Side) -->
+        {% if 'username' in session %}
+        <div class="dropdown user-dropdown">
+            <button class="dropbtn"><i class="fas fa-user"></i> {{ session['username'] }}</button>
+            <div class="dropdown-content">
+                <a href="/profile"><i class="fas fa-user-circle"></i> Profile</a>
+                <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="dropdown user-dropdown">
+            <button class="dropbtn"><i class="fas fa-user"></i> Account</button>
+            <div class="dropdown-content">
+                <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="/register"><i class="fas fa-user-plus"></i> Register</a>
+            </div>
+        </div>
+        {% endif %}
+    </nav>
+    
+    <style>
+        /* Add this to your existing CSS without modifying the rest */
+        .dropdown-submenu {
+            position: relative;
+        }
+        
+        .dropdown-submenu-content {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background-color: var(--white);
+            min-width: 200px;
+            box-shadow: var(--shadow);
+            border-radius: 4px;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+        
+        .dropdown-submenu:hover .dropdown-submenu-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .dropdown-submenu > a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dropdown-submenu .fas.fa-chevron-right {
+            margin-left: auto;
+            padding-left: 10px;
+        }
+    </style>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Contact Us</h2>
+        
+
+        <!-- Contact Information Cards -->
+        <div class="contact-grid">
+            <!-- Helpline Section -->
+            <div class="card helpline-card">
+                <h3><i class="fas fa-phone-alt"></i> Helpline</h3>
+                <p>If you're facing issues with disease detection or need immediate assistance, contact our helpline:</p>
+                <p><strong><i class="fas fa-phone"></i> Phone:</strong> +91 8660179957</p>
+                <p><strong><i class="fas fa-envelope"></i> Email:</strong> kibutzujimuzan121@gmail.com</p>
+                <p><strong><i class="fas fa-clock"></i> Hours:</strong> Mon-Fri, 9AM-5PM</p>
+            </div>
+
+            <!-- Author Section -->
+            <div class="card author-card">
+                <h3><i class="fas fa-user-tie"></i> Author Details</h3>
+                <p>This web application was developed by <strong>APVS</strong>, a software engineer team with expertise in AI and machine learning for agriculture from ISE department VVCE.</p>
+                <p><strong><i class="fas fa-envelope"></i> Email:</strong> kibutzujimuzan121@gmail.com</p>
+                <p><strong><i class="fas fa-globe"></i> Website:</strong> vvce.ac.in</p>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <a href="/" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2025 Tomato Leaf Disease Detector. All Rights Reserved @APVS
+    </footer>
+</body>
+</html>

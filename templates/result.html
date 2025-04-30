@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detection Result - Tomato Leaf Disease Detector</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --accent-color: #8BC34A;
+            --dark-color: #1B5E20;
+            --light-color: #F1F8E9;
+            --text-color: #333;
+            --white: #fff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --error-color: #f44336;
+            --warning-color: #ff9800;
+            --success-color: #4CAF50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .app-name {
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            flex-grow: 1;
+            margin: 0 1rem;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background-color: transparent;
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--white);
+            min-width: 200px;
+            box-shadow: var(--shadow);
+            border-radius: 4px;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            flex-grow: 1;
+        }
+
+        h1 {
+            color: var(--dark-color);
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .result-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin: 2rem 0;
+            transition: var(--transition);
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .result-header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .result-header h2 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .result-content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .result-content {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+        }
+
+        .leaf-image-container {
+            flex: 1;
+            text-align: center;
+        }
+
+        .leaf-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            border: 3px solid var(--accent-color);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .leaf-image:hover {
+            transform: scale(1.03);
+        }
+
+        .result-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            width: fit-content;
+        }
+
+        .status-badge.healthy {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .status-badge.early {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+        }
+
+        .status-badge.late {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .status-badge.severe {
+            background-color: var(--error-color);
+            color: white;
+        }
+
+        .detail-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .detail-icon {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+
+        .detail-text {
+            flex: 1;
+        }
+
+        .detail-text h3 {
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .medicine-treatment {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+        }
+
+        .medicine-treatment h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .medicine-card {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .medicine-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .medicine-image {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: white;
+            padding: 0.5rem;
+        }
+
+        .medicine-details {
+            flex: 1;
+        }
+
+        .medicine-name {
+            color: var(--dark-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .medicine-dosage {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-download-container {
+            text-align: center;
+            margin: 1rem 0 2rem;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--error-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .download-btn:hover {
+            background-color: #d32f2f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: #607D8B;
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background-color: #455A64;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .result-content {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .leaf-image {
+                max-height: 250px;
+            }
+            
+            nav {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .app-name {
+                margin: 1rem 0;
+            }
+            
+            .dropdown {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            
+            .dropbtn {
+                width: 100%;
+            }
+            
+            .dropdown-content {
+                width: 100%;
+            }
+            
+            .medicine-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .medicine-image {
+                width: 100%;
+                height: auto;
+                max-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <!-- Menu (Left Side) -->
+        <div class="dropdown">
+            <button class="dropbtn"><i class="fas fa-bars"></i> Menu</button>
+            <div class="dropdown-content">
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+                <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+                
+                {% if 'username' in session %}
+                    <!-- Tomato Disease Detection with submenu -->
+                    <div class="dropdown-submenu">
+                        <a href="#"><i class="fas fa-search"></i> Tomato Disease <i class="fas fa-chevron-right"></i></a>
+                        <div class="dropdown-submenu-content">
+                            <a href="/new_detect"><i class="fas fa-search"></i> Disease Detection</a>
+                            <a href="/disease_history"><i class="fas fa-history"></i> Detection History</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Lateblight Stage Detection with submenu -->
+                    <div class="dropdown-submenu">
+                        <a href="#"><i class="fas fa-leaf"></i> Lateblight Stage <i class="fas fa-chevron-right"></i></a>
+                        <div class="dropdown-submenu-content">
+                            <a href="/detect"><i class="fas fa-leaf"></i> Single Image</a>
+                            <a href="/history"><i class="fas fa-clock"></i>Single Image History</a>
+                            <a href="/detect_multiple"><i class="fas fa-images"></i> Multiple Images</a>
+                            <a href="/history_multiple"><i class="fas fa-history"></i> Multiple Images History</a>
+                        </div>
+                    </div>
+                    
+                    <a href="/necessary_precautions"><i class="fas fa-shield-alt"></i> Necessary Precautions</a>
+                {% endif %}
+            </div>
+        </div>
+    
+        <!-- App Name (Centered) -->
+        <h1 class="app-name"><i class="fas fa-leaf"></i> Tomato Leaf Disease Detector</h1>
+    
+        <!-- User Dropdown (Right Side) -->
+        {% if 'username' in session %}
+        <div class="dropdown user-dropdown">
+            <button class="dropbtn"><i class="fas fa-user"></i> {{ session['username'] }}</button>
+            <div class="dropdown-content">
+                <a href="/profile"><i class="fas fa-user-circle"></i> Profile</a>
+                <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="dropdown user-dropdown">
+            <button class="dropbtn"><i class="fas fa-user"></i> Account</button>
+            <div class="dropdown-content">
+                <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="/register"><i class="fas fa-user-plus"></i> Register</a>
+            </div>
+        </div>
+        {% endif %}
+    </nav>
+    
+    <style>
+        /* Add this to your existing CSS without modifying the rest */
+        .dropdown-submenu {
+            position: relative;
+        }
+        
+        .dropdown-submenu-content {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background-color: var(--white);
+            min-width: 200px;
+            box-shadow: var(--shadow);
+            border-radius: 4px;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+        
+        .dropdown-submenu:hover .dropdown-submenu-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .dropdown-submenu > a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dropdown-submenu .fas.fa-chevron-right {
+            margin-left: auto;
+            padding-left: 10px;
+        }
+    </style>
+
+    <div class="container">
+        <h1>Detection Results</h1>
+        
+        <div class="pdf-download-container">
+            <a href="{{ url_for('single_report', image_file=image_file, disease_stage=disease_stage, timestamp=timestamp) }}" class="download-btn">
+                <i class="fas fa-file-pdf"></i> Download Full Report
+            </a>
+        </div>
+
+        <div class="result-card">
+            <div class="result-header">
+                <h2><i class="fas fa-clipboard-check"></i> Analysis Complete</h2>
+            </div>
+            <div class="result-content">
+                <div class="leaf-image-container">
+                    <img src="{{ url_for('static', filename='uploads/' + image_file) }}" 
+                         alt="Tomato Leaf Analysis" 
+                         class="leaf-image">
+                </div>
+                <div class="result-details">
+                    <div>
+                        <h3>Disease Status</h3>
+                        <div class="status-badge 
+                            {% if 'healthy' in disease_stage.lower() %}healthy
+                            {% elif 'stage 1' in disease_stage.lower() %}stage 1
+                            {% elif 'stage 2' in disease_stage.lower() %}stage 2
+                            {% elif 'stage 3' in disease_stage.lower() %}stage 3
+                            {% endif %}">
+                            <i class="fas fa-{% if 'healthy' in disease_stage.lower() %}check-circle
+                                           {% else %}exclamation-triangle{% endif %}"></i>
+                            {{ disease_stage }}
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <i class="fas fa-clock detail-icon"></i>
+                        <div class="detail-text">
+                            <h3>Analysis Time</h3>
+                            <p>{{ timestamp }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <i class="fas fa-info-circle detail-icon"></i>
+                        <div class="detail-text">
+                            <h3>Confidence Level</h3>
+                            <p>High Accuracy (96%)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="medicine-treatment">
+            <h2><i class="fas fa-prescription-bottle-alt"></i> Recommended Treatments</h2>
+            
+            {% if 'healthy' in disease_stage.lower() %}
+                <!-- Stage 1 Precautions (Cosuit) -->
+                <div class="medicine-card">
+                    <img src="{{ url_for('static', filename='Medicines/Cosuit.jpg') }}" alt="Cosuit" class="medicine-image">
+                    <div class="medicine-details">
+                        <h3 class="medicine-name"><i class="fas fa-shield-virus"></i> Cosuit for Stage 1</h3>
+                        <p class="medicine-dosage">3g per litre of water</p>
+                        <p>Fungicide should be given in the specified quantity to treat the Lateblight disease in an early stage</p>
+                    </div>
+                </div>
+                
+            {% elif 'stage 1' in disease_stage.lower() %}
+                <!-- Stage 1 Treatment (Cosuit) -->
+                <div class="medicine-card">
+                    <img src="{{ url_for('static', filename='Medicines/Cosuit.jpg') }}" alt="Cosuit" class="medicine-image">
+                    <div class="medicine-details">
+                        <h3 class="medicine-name"><i class="fas fa-medkit"></i> Cosuit for Stage 1</h3>
+                        <p class="medicine-dosage">3g per litre of water</p>
+                        <p>Fungicide should be given in the specified quantity to treat the Lateblight disease in an early stage</p>
+                    </div>
+                </div>
+                
+                <!-- Stage 2 Treatment (Equation Pro or Kocide 2000) -->
+                <div class="medicine-card">
+                    <img src="{{ url_for('static', filename='Medicines/EquationPro+Kocide.jpg') }}" alt="Equation Pro or Kocide 2000" class="medicine-image">
+                    <div class="medicine-details">
+                        <h3 class="medicine-name"><i class="fas fa-prescription-bottle-alt"></i> Equation Pro or Kocide 2000 for Stage 2</h3>
+                        <p class="medicine-dosage">Equation Pro (1ml/litre) or Kocide 2000 (2g/litre)</p>
+                        <p>Fungicides that should be applied within 50 days after planting the saplings.It takes care of Lateblight disease in the middle stages </p>
+                    </div>
+                </div>
+                
+            {% elif 'stage 2' in disease_stage.lower() %}
+                <!-- Stage 2 Treatment (Equation Pro or Kocide 2000) -->
+                <div class="medicine-card">
+                    <img src="{{ url_for('static', filename='Medicines/EquationPro+Kocide.jpg') }}" alt="Equation Pro or Kocide 2000" class="medicine-image">
+                    <div class="medicine-details">
+                        <h3 class="medicine-name"><i class="fas fa-virus-slash"></i> Equation Pro or Kocide 2000 for Stage 2</h3>
+                        <p class="medicine-dosage">Equation Pro (1ml/litre) or Kocide 2000 (2g/litre)</p>
+                        <p>Fungicides that should be applied within 50 days after planting the saplings.It takes care of Lateblight disease in the middle stages </p>
+                    </div>
+                </div>
+                
+                <!-- Stage 3 Treatment (Acrobat or Polyram) -->
+                <div class="medicine-card">
+                    <img src="{{ url_for('static', filename='Medicines/Acrobat+Ployram.jpg') }}" alt="Acrobat or Polyram" class="medicine-image">
+                    <div class="medicine-details">
+                        <h3 class="medicine-name"><i class="fas fa-biohazard"></i> Acrobat or Polyram for Stage 3</h3>
+                        <p class="medicine-dosage">Acrobat (1g/litre) or Polyram (4g/litre)</p>
+                        <p>Fungicides that should be applied within 60 days after planting the saplings.It takes care of Lateblight disease in the last stages for sure.</p>
+                    </div>
+                </div>
+                
+            {% elif 'stage 3' in disease_stage.lower() %}
+                <!-- Stage 3 Treatment (Acrobat or Polyram) -->
+                <div class="medicine-card">
+                    <img src="{{ url_for('static', filename='Medicines/Acrobat+Ployram.jpg') }}" alt="Acrobat or Polyram" class="medicine-image">
+                    <div class="medicine-details">
+                        <h3 class="medicine-name"><i class="fas fa-skull-crossbones"></i> Acrobat or Polyram for Stage 3</h3>
+                        <p class="medicine-dosage">Acrobat (1g/litre) or Polyram (4g/litre)</p>
+                        <p>Fungicides that should be applied within 60 days after planting the saplings.It takes care of Lateblight disease in the last stages for sure.</p>
+                    </div>
+                </div>
+                
+            {% else %}
+                <div class="medicine-card">
+                    <img src="{{ url_for('static', filename='Medicines/Default.jpg') }}" alt="General Treatment" class="medicine-image">
+                    <div class="medicine-details">
+                        <h3 class="medicine-name"><i class="fas fa-question-circle"></i> General Recommendations</h3>
+                        <p>Please consult with an agricultural expert for specific treatment options.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="button-container">
+            <a href="{{ url_for('detect') }}" class="btn btn-primary">
+                <i class="fas fa-search"></i> Analyze Another Leaf
+            </a>
+            <a href="/history" class="btn btn-secondary">
+                <i class="fas fa-history"></i> View History
+            </a>
+            <a href="/" class="btn btn-secondary">
+                <i class="fas fa-home"></i> Return Home
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Tomato Leaf Disease Detector. All Rights Reserved @APVS
+    </footer>
+</body>
+</html>

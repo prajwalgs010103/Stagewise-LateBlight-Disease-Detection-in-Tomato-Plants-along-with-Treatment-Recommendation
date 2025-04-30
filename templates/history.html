@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detection History | Tomato Leaf Disease Detector</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --accent-color: #8BC34A;
+            --dark-color: #1B5E20;
+            --light-color: #F1F8E9;
+            --text-color: #333;
+            --white: #fff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            background-color: var(--primary-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .app-name {
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            flex-grow: 1;
+            margin: 0 1rem;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background-color: transparent;
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dropbtn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--white);
+            min-width: 200px;
+            box-shadow: var(--shadow);
+            border-radius: 4px;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background-color: var(--light-color);
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            flex-grow: 1;
+        }
+
+        h1 {
+            color: var(--dark-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .filter-container label {
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+
+        .filter-container input {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Poppins', sans-serif;
+            width: 80px;
+            text-align: center;
+        }
+
+        .filter-container input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(139, 195, 74, 0.2);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            box-shadow: var(--shadow);
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--light-color);
+        }
+
+        tr:hover {
+            background-color: rgba(139, 195, 74, 0.1);
+        }
+
+        .history-image {
+            max-width: 180px;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .history-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .download-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .disease-stage {
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            background-color: #e8f5e9;
+            color: var(--dark-color);
+        }
+
+        .stage-early {
+            background-color: #C8E6C9;
+            color: #1B5E20;
+        }
+
+        .stage-mid {
+            background-color: #FFECB3;
+            color: #5D4037;
+        }
+
+        .stage-late {
+            background-color: #FFCDD2;
+            color: #C62828;
+        }
+
+        .no-history {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+        }
+
+        .no-history i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        .no-history p {
+            font-size: 1.2rem;
+            color: #777;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .app-name {
+                margin: 1rem 0;
+                order: -1;
+            }
+
+            .dropdown {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            .dropbtn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .dropdown-content {
+                width: 100%;
+            }
+
+            .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-container input {
+                width: 100%;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <!-- Menu (Left Side) -->
+        <div class="dropdown">
+            <button class="dropbtn"><i class="fas fa-bars"></i> Menu</button>
+            <div class="dropdown-content">
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+                <a href="/contact"><i class="fas fa-envelope"></i> Contact</a>
+                
+                {% if 'username' in session %}
+                    <!-- Tomato Disease Detection with submenu -->
+                    <div class="dropdown-submenu">
+                        <a href="#"><i class="fas fa-search"></i> Tomato Disease <i class="fas fa-chevron-right"></i></a>
+                        <div class="dropdown-submenu-content">
+                            <a href="/new_detect"><i class="fas fa-search"></i> Disease Detection</a>
+                            <a href="/disease_history"><i class="fas fa-history"></i> Detection History</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Lateblight Stage Detection with submenu -->
+                    <div class="dropdown-submenu">
+                        <a href="#"><i class="fas fa-leaf"></i> Lateblight Stage <i class="fas fa-chevron-right"></i></a>
+                        <div class="dropdown-submenu-content">
+                            <a href="/detect"><i class="fas fa-leaf"></i> Single Image</a>
+                            <a href="/history"><i class="fas fa-clock"></i>Single Image History</a>
+                            <a href="/detect_multiple"><i class="fas fa-images"></i> Multiple Images</a>
+                            <a href="/history_multiple"><i class="fas fa-history"></i> Multiple Images History</a>
+                        </div>
+                    </div>
+                    
+                    <a href="/necessary_precautions"><i class="fas fa-shield-alt"></i> Necessary Precautions</a>
+                {% endif %}
+            </div>
+        </div>
+    
+        <!-- App Name (Centered) -->
+        <h1 class="app-name"><i class="fas fa-leaf"></i> Tomato Leaf Disease Detector</h1>
+    
+        <!-- User Dropdown (Right Side) -->
+        {% if 'username' in session %}
+        <div class="dropdown user-dropdown">
+            <button class="dropbtn"><i class="fas fa-user"></i> {{ session['username'] }}</button>
+            <div class="dropdown-content">
+                <a href="/profile"><i class="fas fa-user-circle"></i> Profile</a>
+                <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="dropdown user-dropdown">
+            <button class="dropbtn"><i class="fas fa-user"></i> Account</button>
+            <div class="dropdown-content">
+                <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="/register"><i class="fas fa-user-plus"></i> Register</a>
+            </div>
+        </div>
+        {% endif %}
+    </nav>
+    
+    <style>
+        /* Add this to your existing CSS without modifying the rest */
+        .dropdown-submenu {
+            position: relative;
+        }
+        
+        .dropdown-submenu-content {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background-color: var(--white);
+            min-width: 200px;
+            box-shadow: var(--shadow);
+            border-radius: 4px;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+        
+        .dropdown-submenu:hover .dropdown-submenu-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .dropdown-submenu > a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dropdown-submenu .fas.fa-chevron-right {
+            margin-left: auto;
+            padding-left: 10px;
+        }
+    </style>
+
+    <div class="container">
+        <h1><i class="fas fa-history"></i> Detection History</h1>
+
+        <!-- Filter Form -->
+        <div class="filter-container">
+            <form method="GET" action="{{ url_for('history') }}" class="filter-form" style="display: contents;">
+                <label for="limit"><i class="fas fa-filter"></i> Show last:</label>
+                <input type="number" id="limit" name="limit" min="1" value="{{ selected_limit }}" required>
+                <button type="submit" class="btn">
+                    <i class="fas fa-check"></i> Apply Filter
+                </button>
+            </form>
+        </div>
+
+        {% if history %}
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-image"></i> Image</th>
+                        <th><i class="fas fa-diagnoses"></i> Disease Stage</th>
+                        <th><i class="fas fa-clock"></i> Detection Time</th>
+                        <th><i class="fas fa-download"></i> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in history %}
+                        <tr>
+                            <td>
+                                <img src="data:image/png;base64,{{ entry.image_base64 }}" 
+                                     alt="Detection Image" 
+                                     class="history-image"
+                                     onclick="window.open('data:image/png;base64,{{ entry.image_base64 }}')">
+                            </td>
+                            <td>
+                                {% if 'early' in entry.disease_stage|lower %}
+                                    <span class="disease-stage stage-early">{{ entry.disease_stage }}</span>
+                                {% elif 'mid' in entry.disease_stage|lower %}
+                                    <span class="disease-stage stage-mid">{{ entry.disease_stage }}</span>
+                                {% elif 'late' in entry.disease_stage|lower %}
+                                    <span class="disease-stage stage-late">{{ entry.disease_stage }}</span>
+                                {% else %}
+                                    <span class="disease-stage">{{ entry.disease_stage }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ entry.timestamp }}</td>
+                            <td>
+                                <a href="data:image/png;base64,{{ entry.image_base64 }}" 
+                                   download="detection_{{ entry.timestamp|replace(' ', '_') }}.png" 
+                                   class="download-btn">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="no-history">
+                <i class="far fa-folder-open"></i>
+                <h3>No Detection History Found</h3>
+                <p>You haven't performed any detections yet. Try our detection feature to get started!</p>
+                <a href="/detect" class="btn" style="margin-top: 1.5rem;">
+                    <i class="fas fa-plus"></i> Perform First Detection
+                </a>
+            </div>
+        {% endif %}
+
+        <div class="action-buttons">
+            <a href="/" class="btn">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            {% if history %}
+            <a href="/detect" class="btn">
+                <i class="fas fa-plus"></i> New Detection
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Tomato Leaf Disease Detector. All Rights Reserved @APVS
+    </footer>
+
+    <script>
+        // Make images clickable to view larger version
+        document.querySelectorAll('.history-image').forEach(img => {
+            img.style.cursor = 'pointer';
+        });
+    </script>
+</body>
+</html>

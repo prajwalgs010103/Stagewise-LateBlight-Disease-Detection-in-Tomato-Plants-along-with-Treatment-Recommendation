@@ -1,0 +1,289 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Navigation Bar */
+nav {
+    background-color: #388e3c; /* Tomato Leaf Green */
+    padding: 15px 0;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* App Name (Centered) on All Pages */
+nav h1 {
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    flex-grow: 1; /* Make the title take the remaining space */
+    margin: 0;
+}
+
+/* Menu (Left Side) only for Home Page */
+.home-page nav .dropdown {
+    display: block;
+}
+
+/* Hide Menu for Pages Other Than Home */
+nav .dropdown {
+    display: none;
+}
+
+.home-page nav .dropdown {
+    display: block; /* Show only on homepage */
+}
+
+/* Dropdown Button Styling */
+.dropbtn {
+    background-color: #388e3c;
+    color: white;
+    padding: 14px 20px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.dropbtn:hover {
+    background-color: #2e7d32;
+}
+
+/* Dropdown Content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+}
+
+.dropdown-content a:hover {
+    background-color: #388e3c;
+    color: white;
+}
+
+/* Show the dropdown content when hovering over the button */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Footer */
+footer {
+    background-color: #388e3c;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Container */
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 30px;
+}
+
+/* Card Styles */
+.card {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Contact Form */
+form div {
+    margin-bottom: 20px;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+form input:focus,
+form textarea:focus {
+    outline-color: #388e3c;
+    border-color: #388e3c;
+}
+
+/* Submit Feedback Button */
+form button {
+    background-color: #388e3c;
+    color: white;
+    padding: 10px 20px;  /* Adjusted padding for a smaller button */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;  /* Reduced font size */
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 20px; /* Added space below the button */
+}
+
+form button:hover {
+    background-color: #2e7d32;
+}
+
+
+/* Author and Helpline Cards */
+.card h3 {
+    font-size: 22px;
+    color: #388e3c;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Helpline Card */
+.helpline-card {
+    background-color: #f0f8f0;
+    border-left: 5px solid #388e3c;
+    margin-top: 20px;  /* Added space above the helpline box */
+}
+
+/* Contact Links */
+a {
+    color: #388e3c;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffcc00;
+}
+
+/* Back Button */
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #388e3c;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.back-btn:hover {
+    background-color: #2e7d32;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    nav {
+        text-align: left;
+    }
+
+    .dropbtn {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .dropdown-content a {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    form input,
+    form textarea {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    form button {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+}
+/* User Dropdown (Right Side) */
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.user-dropdown .dropbtn {
+    background-color: #388e3c;
+    color: white;
+    padding: 14px 20px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.user-dropdown .dropbtn:hover {
+    background-color: #2e7d32;
+}
+
+.user-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.user-dropdown .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+}
+
+.user-dropdown .dropdown-content a:hover {
+    background-color: #388e3c;
+    color: white;
+}
+
+/* Show dropdown content on hover */
+.user-dropdown:hover .dropdown-content {
+    display: block;
+}
+nav .dropdown {
+    display: block !important;  /* Ensure the dropdown is visible */
+}
